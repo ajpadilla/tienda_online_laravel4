@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Autocompletar</title>
+
+	<script type="text/javascript">
+	var peticion = null;
+	var elementoSeleccionado = -1;
+	var sugerencias = null;
+	var cacheSugerencias = {};
+	var texto=null;
+
+	function inicializa_xhr()
+	{
+	  if (window.XMLHttpRequest)
+	   {
+	  	  return new XMLHttpRequest(); 
+	   } else if (window.ActiveXObject) {
+	  	  return new ActiveXObject("Microsoft.XMLHTTP"); 
+	   } 
+	}
+
+	Array.prototype.formateaLista = function()
+	{
+	  var codigoHtml = "";
+
+	  codigoHtml = "<ul>";
+	  for(var i=0; i<this.length; i++) {
+	    if(i == elementoSeleccionado) {
+	      codigoHtml += "<li class=\"seleccionado\">"+this[i]+"</li>";
+	    }
+	    else {
+	      codigoHtml += "<li>"+this[i]+"</li>";
+	    }
+	  }
+	  codigoHtml += "</ul>";
+
+	  return codigoHtml;
+	}
+
+	function autocompleta()
+	{
+		var elEvento = arguments[0] || window.event;
+  		var tecla = elEvento.keyCode;
+
+  		if (tecla==40)
+  		{
+  			if (elementoSeleccionado+1 <sugerencias.length)
+  			{
+  				elementoSeleccionado++;
+  			}
+  			muestraSugerencias();
+  		}else if(tecla==38){
+  			if (elementoSeleccionado>0){
+  				elementoSeleccionado--;
+  			}
+  			muestraSugerencias();
+  		}else if(tecla == 13){
+  			  seleccionaElemento();
+  		}else{
+  		    texto=document.getElementById('municipio').value;
+
+  			if(tecla == 8 && texto == "")
+  			{
+    		  borraLista();
+      		  return;
+    		}
+
+    		if (cacheSugerencias[texto] == null)
+    		{
+    			peticion=inicializa_xhr();
+				if (peticion)
+				{
+					peticion.onreadystatechange=datosServiror;
+					peticion.open('POST', 'autocompletaMunicipios.php?nocache='+Math.random(), true);
+		     	    peticion.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		            peticion.send('municipio='+encodeURIComponent(texto));
+				}
+    		} else{
+    			sugerencias = cacheSugerencias[texto];
+      			actualizaSugerencias();
+    		}
+  		}
+		
+	}
+
+	function datosServiror()
+	{
+		if (peticion.readyState==4)
+		{
+			if (peticion.status==200)
+			   {
+			   	  sugerencias=eval('('+peticion.responseText+')');
+			   	  if (sugerencias.length==0)
+			   	  {
+			   	  	sinResultados();
+			   	  }else{
+			   	  	cacheSugerencias[texto] = sugerencias;
+			   	  	actualizaSugerencias();
+			   	  }
+			   }
+		}
+	}
+
+	function sinResultados()
+	{
+		document.getElementById("sugerencias").innerHTML = "No existen municipios que empiecen con ese texto";
+  		document.getElementById("sugerencias").style.display = "block";
+	}
+
+	function actualizaSugerencias()
+	{
+	  elementoSeleccionado = -1;
+	  muestraSugerencias();
+	}
+
+	function muestraSugerencias()
+	{
+ 	 var zonaSugerencias = document.getElementById("sugerencias");
+  
+ 	 zonaSugerencias.innerHTML = sugerencias.formateaLista();
+  	 zonaSugerencias.style.display = 'block';  
+	}
+
+	function seleccionaElemento()
+	{
+	  if(sugerencias[elementoSeleccionado]) {
+	    document.getElementById("municipio").value = sugerencias[elementoSeleccionado];
+	    borraLista();
+	  }
+	}
+	function borraLista() 
+	{
+	  document.getElementById("sugerencias").innerHTML = "";
+	  document.getElementById("sugerencias").style.display = "none";
+	}
+	
+	window.onload=function()
+	{
+		var elDiv = document.createElement("div");
+		elDiv.id="sugerencias";
+		document.body.appendChild(elDiv);
+
+		document.getElementById("municipio").onkeyup = autocompleta;
+		document.getElementById("municipio").focus();
+	};
+	</script>
+
+	<style type="text/css">
+		body {font-family: Arial, Helvetica, sans-serif;}
+		#sugerencias {width:200px; border:1px solid black; display:none; margin-left: 83px;}
+		#sugerencias ul {list-style: none; margin: 0; padding: 0; font-size:.85em;}
+		#sugerencias ul li {padding: .2em; border-bottom: 1px solid silver;}
+		.seleccionado {font-weight:bold; background-color: #FFFF00;}
+	</style>
+</head>
+<body>
+	<h1>Autocompletar texto</h1>
+	<form>
+		<label for="municipio">Municipio</label> &nbsp;&nbsp;
+		<input type="text" id="municipio" name="municipio" size="30" />
+ 	    <input type="text" id="oculto" name="oculto" style="display:none;" />
+	</form>	
+</body>
+</html>

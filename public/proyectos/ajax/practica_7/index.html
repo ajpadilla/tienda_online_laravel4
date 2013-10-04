@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Listas desplegables encadenadas</title>
+	<script type="text/javascript">
+	 var peticion_http;
+
+		 function inicializa_xhr()
+		 {
+		    if (window.XMLHttpRequest)
+		    {
+	  		  	return new XMLHttpRequest(); 
+	  		} else if (window.ActiveXObject) {
+	  		    return new ActiveXObject("Microsoft.XMLHTTP"); 
+	 	 	} 
+		 }
+
+
+		function mostrarProvincias()
+		{
+			if(peticion_http.readyState == 4)
+			{
+				if (peticion_http.status == 200)
+				{
+					//alert('hola peticion_http');
+					var lista=document.getElementById('provincia');
+					/*var documento_xml=peticion_http.responseXML;
+
+					var provincias=documento_xml.getElementsByTagName("provincias")[0];
+					alert(provincias);
+					/*var lasProvincias=provincias.getElementsByTagName('provincia');
+					lista.options[0] = new Option("- selecciona -");
+
+					for (var i = 0; i < lasProvincias.length; i++) 
+					{
+						var codigo=lasProvincias[i].getElementsByTagName('codigo')[0].firstChild.nodeValue;
+						var nombre = lasProvincias[i].getElementsByTagName("nombre")[0].firstChild.nodeValue;
+						lista.option[i+1]=new Option(nombre, codigo);
+					}*/
+
+
+					var provincias=eval('('+peticion_http.responseText+')');
+					lista.options[0] = new Option("- selecciona -");
+					var i=1;
+					for(var codigo in provincias)
+					{
+						lista.options[i] = new Option(provincias[codigo], codigo);
+        				i++;
+					}
+				}
+			}
+		}
+
+		function cargarMunicipios()
+		{
+			lista=document.getElementById('provincia');
+			var provincia=lista[lista.selectedIndex].value;
+			if (!isNaN(provincia))
+			{
+				 peticion_http.onreadystatechange = mostrarMunicipios;
+     			 peticion_http.open("POST", "cargaMunicipiosJSON.php?nocache=" + Math.random(), true);
+      			 peticion_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      			 peticion_http.send("provincia=" + provincia);
+			}
+		}
+
+		function mostrarMunicipios()
+		{
+			if (peticion_http.readyState==4)
+			{
+				if (peticion_http.status==200)
+				{
+					var lista=document.getElementById('municipio');
+					var municipios=eval('('+peticion_http.responseText+')');
+					lista.options.length = 0;
+     			    var i=0;
+     			    for(var codigo in municipios)
+     			    {
+	                    lista.options[i] = new Option(municipios[codigo], codigo);
+	                    i++;
+      				}
+				}
+			}
+		}
+
+
+		window.onload = function() 
+		{
+		 	 peticion_http = inicializa_xhr();
+		 	 if(peticion_http)
+		 	  {
+		 	  	//alert('hola');
+			    peticion_http.onreadystatechange = mostrarProvincias;
+			    peticion_http.open("GET", "cargaProvinciasJSON.php?nocache="+Math.random(), true);
+			    peticion_http.send(null);
+		 	 }
+
+		 	 document.getElementById("provincia").onchange = cargarMunicipios;
+	 	}
+	</script>
+</head>
+<body>
+	<h1>Listas desplegables encadenadas</h1>
+	<form>
+		 <label for="provincia">Provincias</label>
+		 <select id="provincia">
+		 	<option>Cargando...</option>
+		 </select>
+		 <label for="municipio">Municipios</label>
+		 <select id="municipio">
+		 	<option>- selecciona una provincia -</option>
+		 </select>
+	</form>
+	<div id="disponibilidad"></div>
+</body>
+</html>

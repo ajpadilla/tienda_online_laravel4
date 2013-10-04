@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Hola Mundo Con Ajax Version 2</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript">
+		var READY_STATE_COMPLETE=4;
+		var peticion_http=null;
+
+		function cargarConetenido(url,metodo,funcion) {
+		   peticion_http=inicializar_XMLHttpRequest();
+
+		   if (peticion_http){
+		   	   peticion_http.onreadystatechange=funcion;
+		   	   peticion_http.open(metodo,url,true);
+			   peticion_http.send(null);
+		   };
+		}
+
+		function inicializar_XMLHttpRequest() {
+			if (window.XMLHttpRequest){
+				return new XMLHttpRequest();
+			} else if (window.ActiveXObject){
+				return new ActiveXObject('Microsoft.XMLHTTP');
+			};
+		}
+
+		function muestraContenido(){
+			if (peticion_http.readyState==READY_STATE_COMPLETE){
+				if (peticion_http.status==200){
+						alert(peticion_http.responseText);
+				};
+			};
+		}
+
+		function descargarArchivo() {
+			cargarConetenido('saludo.txt','GET',muestraContenido);
+		}
+		window.onload=descargarArchivo;
+	</script>
+</head>
+<body>
+
+</body>
+</html>

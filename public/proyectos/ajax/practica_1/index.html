@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Hola Mundo Con Ajax</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript">
+		//obtiene la instancia del objeto XMLHttpRequest
+		function descargarArchivo()
+		{
+			if (window.XMLHttpRequest){
+				peticion_http=new XMLHttpRequest();
+			} else if (window.ActiveXObject){
+				peticion_http=new ActiveXObject('Microsoft.XMLHTTP');
+			};
+
+			//prepara la funcion respuesta
+			peticion_http.onreadystatechange=muestraContenido;
+
+			//realiza la funcion http
+			peticion_http.open('GET','holaMundo.txt',true);
+			peticion_http.send(null);
+
+			function muestraContenido(){
+				if (peticion_http.readyState==4){
+					if (peticion_http.status==200){
+						alert(peticion_http.responseText);
+					};
+				};
+			}
+		}
+		window.onload=descargarArchivo;
+	</script>
+</head>
+<body>
+</body>
+</html>
