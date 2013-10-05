@@ -9,13 +9,21 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.png">
 
-	<title>{{ $titulo }}</title>
+	<title>
+		@section('title')
+		@show
+	 </title>
 	 <!-- Bootstrap core CSS -->
     <link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet">
   	<link href="css/signin.css" rel="stylesheet" type="text/css"  >
 
 </head>
 <body>
+	<section>
+ 		<div class="container">
+	    	@yield('content')
+	   </div>
+	</section>
 
 	<script src="bootstrap/dist/js/jquery-2.0.3.js"></script>
     <script src="bootstrap/dist/js/bootstrap.js"></script>

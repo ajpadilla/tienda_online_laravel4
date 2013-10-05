@@ -96,7 +96,7 @@
 
 		public function loginAdministrador()
 		{
-			return View::make('layouts.administrador')->with('titulo','Iniciar Sesion Administrador');
+			return View::make('layouts.administrador');
 		}
 
 	    public function verificarAdministrador()
@@ -107,14 +107,13 @@
 	    	$user=DB::table('users')->where('full_name','=',$userName)->where('password','=',$password)->first();
 
 	    	if ($user!=NULL) {
-	    		s
+				echo "Bienvenidos <br>";
+				echo $user->full_name;
 			} else {
 				return Redirect::to('login')->with('login_errors', true);
 			}
 
 	    }
-
-
 
 	}  
  ?>
