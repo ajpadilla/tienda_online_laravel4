@@ -79,11 +79,6 @@
 			return View::make('auth.login');
 		}
 
-		public function loginAdministrador()
-		{
-			return View::make('layouts.administrador');
-		}
-
 		public function verificarUsuario()
 		{
 			$email=Input::get('email');
@@ -98,5 +93,28 @@
 			}
 			
 	    }
+
+		public function loginAdministrador()
+		{
+			return View::make('layouts.administrador')->with('titulo','Iniciar Sesion Administrador');
+		}
+
+	    public function verificarAdministrador()
+	    {
+	    	$userName=Input::get('full_name');
+	    	$password=Input::get('password');
+
+	    	$user=DB::table('users')->where('full_name','=',$userName)->where('password','=',$password)->first();
+
+	    	if ($user!=NULL) {
+	    		s
+			} else {
+				return Redirect::to('login')->with('login_errors', true);
+			}
+
+	    }
+
+
+
 	}  
  ?>

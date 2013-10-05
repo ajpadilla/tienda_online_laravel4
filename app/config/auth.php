@@ -53,11 +53,12 @@ return array(
 	| be able to set the name of the table that holds the reset tokens.
 	|
 	*/
-
+	
+	
 	'reminder' => array(
 
 		'email' => 'emails.auth.reminder',
-
+		
 		'table' => 'password_reminders',
 
 		'expire' => 60,

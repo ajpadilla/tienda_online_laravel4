@@ -55,8 +55,7 @@
 		return View::make('peticiones.content');
 	});
 
-
-
 	Route::get('login','UserController@loginAdministrador');
 
+	Route::post('login','UserController@verificarAdministrador');
 ?>
