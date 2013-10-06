@@ -99,21 +99,25 @@
 			return View::make('layouts.administrador');
 		}
 
+	    public function sesionAdministrador()
+		{
+		   return  View::make('layouts.sesionAdministrador');
+		}
+
 	    public function verificarAdministrador()
 	    {
 	    	$userName=Input::get('full_name');
 	    	$password=Input::get('password');
-
 	    	$user=DB::table('users')->where('full_name','=',$userName)->where('password','=',$password)->first();
-
-	    	if ($user!=NULL) {
-				echo "Bienvenidos <br>";
-				echo $user->full_name;
+	    	if (isset($user)) {
+				 Session::put('administrador', $user->full_name);
+				 return Redirect::to('sesionUsuario');
 			} else {
 				return Redirect::to('login')->with('login_errors', true);
 			}
-
 	    }
+
+
 
 	}  
  ?>

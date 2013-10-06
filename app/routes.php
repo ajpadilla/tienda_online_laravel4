@@ -56,6 +56,7 @@
 	});
 
 	Route::get('login','UserController@loginAdministrador');
-
 	Route::post('login','UserController@verificarAdministrador');
+
+	Route::get('sesionUsuario','UserController@sesionAdministrador');
 ?>

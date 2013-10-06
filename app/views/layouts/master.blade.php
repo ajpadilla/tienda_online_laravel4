@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +15,6 @@
 	 <!-- Bootstrap core CSS -->
     <link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet">
   	<link href="css/signin.css" rel="stylesheet" type="text/css"  >
-
 </head>
 <body>
 	<section>
