@@ -108,13 +108,27 @@
 	    {
 	    	$userName=Input::get('full_name');
 	    	$password=Input::get('password');
-	    	$user=DB::table('users')->where('full_name','=',$userName)->where('password','=',$password)->first();
-	    	if (isset($user)) {
-				 Session::put('administrador', $user->full_name);
-				 return Redirect::to('sesionUsuario');
-			} else {
-				return Redirect::to('login')->with('login_errors', true);
-			}
+
+	    	$campo=array('username'=>$userName,'password'=>$password);
+	    	$reglas=array('username'=>'required','password'=>'required');
+	    	$mensaje=array('required'=>'El :attribute esta vacio');
+
+	    	$validar=Validator::make($campo, $reglas,$mensaje);
+
+	    	if ($validar->passes())
+	    	 {
+	    		$user=DB::table('users')->where('full_name','=',$userName)->where('password','=',$password)->first();
+		    	if (isset($user)) 
+		    	{
+					 Session::put('administrador', $user->full_name);
+					 return Redirect::to('sesionUsuario');
+				} else {
+					return Redirect::to('login')->with('login_errors', true);
+				}
+	    	}else{
+	    		return Redirect::to('login')->withErrors($validar);
+	    	}
+	    	
 	    }
 
 

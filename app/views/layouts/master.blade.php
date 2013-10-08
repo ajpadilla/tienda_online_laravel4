@@ -7,7 +7,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.png">
-
 	<title>
 		@section('title')
 		@show
@@ -17,6 +16,28 @@
   	<link href="css/signin.css" rel="stylesheet" type="text/css"  >
 </head>
 <body>
+	 <nav class="navbar  navbar-inverse" role="navigation">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	     	    <span class="sr-only">Toggle navigation</span>
+	      		<span class="icon-bar"></span>
+	      		<span class="icon-bar"></span>
+	      		<span class="icon-bar"></span>
+    		</button>
+   		   <a class="navbar-brand" href="tiendaOnline">Tienda Online</a> 
+		</div>
+
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+				<li class="active">{{ HTML::link('#', 'Ir al sitio Principal'); }}</li>
+				<li>{{ HTML::link('agregarCategoria', 'A&ntilde;adir una nueva categoria'); }}</li>
+				<li>{{ HTML::link('#', 'A&ntilde;adir un nuevo libro'); }}</li>
+				<li>{{ HTML::link('#', 'Cambiar contrase&ntilde;a'); }}</li>
+				<li>{{ HTML::link('#', 'Agregar nuevo usuario administrador'); }}</li>
+				<li>{{ HTML::link('#', 'Cerrar Sesion'); }}</li>
+			</ul>
+		</div>
+	</nav>
 	<section>
  		<div class="container">
 	    	@yield('content')

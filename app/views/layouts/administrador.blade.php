@@ -1,20 +1,30 @@
-@extends('layouts.master')
+@extends('layouts.layout')
 
 @section('title')
   Iniciar Sesion Administrador
 @stop
 
 @section('content')
-	{{Form::open(array('url' => 'login','autocomplete' => 'off','class'=>'form-horizontal form-signin','role' =>'form'))}}
-
-		 <h2 class="form-signin-heading">Please sign in</h2>
-
-		 @if (Session::has('login_errors'))
-		    <div class="alert alert-danger">
+	<div class="">
+		@if (Session::has('login_errors'))
+		  <div class="alert alert-danger">
 		        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		        <span class="error">Usuario o contraseña incorrectos.</span>
-		    </div>
-		 @endif
+		  </div>
+	    @endif
+	</div>
+    
+
+	<div class="">
+		@if($errors->has())
+			{{ $errors->first('username') }}
+			{{ $errors->first('password') }}
+		@endif
+	</div>
+
+	
+	{{Form::open(array('url' => 'login','autocomplete' => 'off','class'=>'form-horizontal form-signin','role' =>'form'))}}
+		<h2 class="form-signin-heading">Please sign in</h2>
 
 		 <div class="form-group">
 		    <div class="col-md-10">
@@ -32,7 +42,7 @@
 			<div class="col-md-10">
 				 {{Form::submit('Login',array('class'=>'btn btn-lg btn-primary btn-block'))}}
 			</div>
-		 </div> 
+	    </div> 
 	{{Form::close()}}
 @stop
 

@@ -57,6 +57,9 @@
 
 	Route::get('login','UserController@loginAdministrador');
 	Route::post('login','UserController@verificarAdministrador');
-
 	Route::get('sesionUsuario','UserController@sesionAdministrador');
+	Route::get('tiendaOnline','CategoriasController@mostrarCategorias');
+	Route::get('agregarCategoria','CategoriasController@vistaAgragarCategoria');
+    Route::post('agregarCategoria','CategoriasController@agregarCategoria');
+    Route::get('categoriaLibro/{id}','CategoriasController@mostraLibrosCategoria');
 ?>
