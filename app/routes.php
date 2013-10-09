@@ -62,4 +62,6 @@
 	Route::get('agregarCategoria','CategoriasController@vistaAgragarCategoria');
     Route::post('agregarCategoria','CategoriasController@agregarCategoria');
     Route::get('categoriaLibro/{id}','CategoriasController@mostraLibrosCategoria');
+    Route::get('VeragregarLibro','LibroController@agregarLibro');
+    Route::post('VeragregarLibro','LibroController@almacenarLibro');
 ?>

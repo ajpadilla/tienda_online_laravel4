@@ -5,7 +5,7 @@
 		public function mostrarCategorias()
 		{
 			$categorias=Categoria::all();
-			return View::make('layouts.sesionUsuario')->with('categorias',$categorias);
+			return View::make('layouts.sesionUsuario')->with('categorias',$categorias);;
 		}
 
 		public function vistaAgragarCategoria()
@@ -45,6 +45,8 @@
 			echo $id_categoria;
 			//$categoria=Categoria::find($id_categoria);
 		}
+
+
 
 	}
  ?>

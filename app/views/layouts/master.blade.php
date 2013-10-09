@@ -29,9 +29,8 @@
 
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<ul class="nav navbar-nav">
-				<li class="active">{{ HTML::link('#', 'Ir al sitio Principal'); }}</li>
 				<li>{{ HTML::link('agregarCategoria', 'A&ntilde;adir una nueva categoria'); }}</li>
-				<li>{{ HTML::link('#', 'A&ntilde;adir un nuevo libro'); }}</li>
+				<li>{{ HTML::link('VeragregarLibro', 'A&ntilde;adir un nuevo libro'); }}</li>
 				<li>{{ HTML::link('#', 'Cambiar contrase&ntilde;a'); }}</li>
 				<li>{{ HTML::link('#', 'Agregar nuevo usuario administrador'); }}</li>
 				<li>{{ HTML::link('#', 'Cerrar Sesion'); }}</li>
